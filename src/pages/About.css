@@ -1,0 +1,37 @@
+.about {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .about h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+  
+  .about p {
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  
+  .about-section {
+    margin-top: 2rem;
+  }
+  
+  .about-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .about-section ul {
+    margin-left: 1.5rem;
+    line-height: 1.8;
+  }
+  
+  .about-section ul li {
+    margin-bottom: 0.5rem;
+  }
