@@ -42,10 +42,7 @@ The following **additional** features are implemented:
 * [x] Responsive design for mobile and desktop viewing
 
 ## Video Walkthrough
-
-Here's a walkthrough of implemented user stories:
-
-
+[![Brewery Explorer](https://img.youtube.com/vi/_7GaoP0brbs/0.jpg)](https://www.youtube.com/watch?v=_7GaoP0brbs)
 
 
 ## License
