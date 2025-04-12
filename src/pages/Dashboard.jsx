@@ -4,6 +4,7 @@ import SearchBar from '../components/SearchBar';
 import FilterBar from '../components/FilterBar';
 import DataList from '../components/DataList';
 import StatisticCard from '../components/StatisticCard';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import './Dashboard.css';
 
 function Dashboard() {
@@ -19,6 +20,14 @@ function Dashboard() {
   const [totalBreweries, setTotalBreweries] = useState(0);
   const [breweryTypes, setBreweryTypes] = useState({});
   const [statesCount, setStatesCount] = useState(0);
+  
+  // Chart data
+  const [typeChartData, setTypeChartData] = useState([]);
+  const [stateChartData, setStateChartData] = useState([]);
+  const [showCharts, setShowCharts] = useState(true);
+  
+  // Colors for pie chart
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#8dd1e1', '#a4de6c', '#d0ed57'];
   
   // Fetch breweries data
   useEffect(() => {
@@ -43,8 +52,30 @@ function Dashboard() {
         setBreweryTypes(types);
         
         // Count unique states
-        const uniqueStates = new Set(data.map(brewery => brewery.state)).size;
-        setStatesCount(uniqueStates);
+        const states = {};
+        data.forEach(brewery => {
+          if (brewery.state) {
+            states[brewery.state] = (states[brewery.state] || 0) + 1;
+          }
+        });
+        setStatesCount(Object.keys(states).length);
+        
+        // Prepare chart data
+        const typeData = Object.entries(types).map(([name, value]) => ({
+          name,
+          value
+        }));
+        setTypeChartData(typeData);
+        
+        // Get top 10 states by brewery count
+        const stateData = Object.entries(states)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 10)
+          .map(([name, value]) => ({
+            name,
+            value
+          }));
+        setStateChartData(stateData);
         
       } catch (err) {
         setError('Failed to fetch brewery data. Please try again later.');
@@ -61,7 +92,7 @@ function Dashboard() {
     
     // Apply search filter
     if (searchTerm) {
-      results = results.filter(brewery => 
+      results = results.filter(brewery =>
         brewery.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -70,17 +101,17 @@ function Dashboard() {
     if (filterValue) {
       switch (filterType) {
         case 'type':
-          results = results.filter(brewery => 
+          results = results.filter(brewery =>
             brewery.brewery_type === filterValue
           );
           break;
         case 'state':
-          results = results.filter(brewery => 
+          results = results.filter(brewery =>
             brewery.state && brewery.state.toLowerCase().includes(filterValue.toLowerCase())
           );
           break;
         case 'city':
-          results = results.filter(brewery => 
+          results = results.filter(brewery =>
             brewery.city && brewery.city.toLowerCase().includes(filterValue.toLowerCase())
           );
           break;
@@ -108,6 +139,11 @@ function Dashboard() {
     
     return maxType;
   };
+  
+  // Toggle charts visibility
+  const toggleCharts = () => {
+    setShowCharts(!showCharts);
+  };
 
   return (
     <div className="dashboard">
@@ -131,10 +167,75 @@ function Dashboard() {
         />
       </div>
       
+      <div className="chart-toggle">
+        <button onClick={toggleCharts}>
+          {showCharts ? 'Hide Charts' : 'Show Charts'}
+        </button>
+      </div>
+      
+      {showCharts && (
+        <div className="charts-container">
+          <div className="chart-card">
+            <h3>Breweries by Type</h3>
+            <div className="chart">
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart
+                  data={typeChartData}
+                  margin={{
+                    top: 20,
+                    right: 30,
+                    left: 20,
+                    bottom: 60,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="name" 
+                    angle={-45} 
+                    textAnchor="end" 
+                    height={60} 
+                  />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="value" name="Number of Breweries" fill={COLORS[0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+          
+          <div className="chart-card">
+            <h3>Top 10 States by Brewery Count</h3>
+            <div className="chart">
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={stateChartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={true}
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {stateChartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value, name, props) => [value, 'Breweries']} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div className="filters-container">
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        <FilterBar 
-          filterType={filterType} 
+        <FilterBar
+          filterType={filterType}
           setFilterType={setFilterType}
           filterValue={filterValue}
           setFilterValue={setFilterValue}

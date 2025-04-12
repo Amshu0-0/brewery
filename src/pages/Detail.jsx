@@ -8,7 +8,7 @@ function Detail() {
   const [brewery, setBrewery] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   useEffect(() => {
     const getBrewery = async () => {
       try {
@@ -24,11 +24,11 @@ function Detail() {
     
     getBrewery();
   }, [id]);
-  
+
   if (loading) return <div className="loading">Loading brewery details...</div>;
   if (error) return <div className="error">{error}</div>;
   if (!brewery) return <div className="not-found">Brewery not found</div>;
-  
+
   return (
     <div className="brewery-detail">
       <Link to="/" className="back-link">← Back to Dashboard</Link>
@@ -44,7 +44,7 @@ function Detail() {
           <ul>
             {brewery.phone && (
               <li>
-                <strong>Phone:</strong> {brewery.phone}
+                <strong>Phone:</strong> {formatPhoneNumber(brewery.phone)}
               </li>
             )}
             {brewery.website_url && (
@@ -70,7 +70,7 @@ function Detail() {
           
           {(brewery.latitude && brewery.longitude) && (
             <div className="map-link">
-              <a 
+              <a
                 href={`https://www.google.com/maps/search/?api=1&query=${brewery.latitude},${brewery.longitude}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -81,8 +81,41 @@ function Detail() {
           )}
         </div>
       </div>
+      
+      <div className="additional-info">
+        <h3>Additional Information</h3>
+        <div className="info-grid">
+          <div className="info-item">
+            <span className="info-label">Brewery ID:</span>
+            <span className="info-value">{brewery.id}</span>
+          </div>
+          {brewery.updated_at && (
+            <div className="info-item">
+              <span className="info-label">Last Updated:</span>
+              <span className="info-value">{new Date(brewery.updated_at).toLocaleDateString()}</span>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <div className="brewery-notice">
+        <p>
+          This information is provided via the Open Brewery DB API. 
+          Is something incorrect? Please check the official brewery website for the most accurate information.
+        </p>
+      </div>
     </div>
   );
+}
+
+// Helper function to format phone numbers
+function formatPhoneNumber(phoneNumberString) {
+  const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+  const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+  if (match) {
+    return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+  }
+  return phoneNumberString;
 }
 
 export default Detail;
