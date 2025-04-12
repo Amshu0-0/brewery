@@ -1,48 +1,44 @@
-# Web Development Project 5 - *Brewery Explorer*
+# Web Development Project 6 - *Brewery Explorer*
 
 Submitted by: *Amshu Wagle*
 
-This web app: *A data dashboard that fetches and displays brewery information from the Open Brewery DB API, allowing users to search, filter, and view details about breweries across the United States.*
+This web app: *A data dashboard that displays information about breweries across the United States, allowing users to search, filter, and view detailed information about each brewery.*
 
-Time spent: *16* hours spent in total
+Time spent: **16** hours spent in total
 
 ## Required Features
 
 The following **required** functionality is completed:
 
-- [x] **The site has a dashboard displaying a list of data fetched using an API call**
-  - The dashboard displays at least 10 unique items, one per row
-  - The dashboard includes at least two features in each row (brewery name, type, city, state, etc.)
-- [x] **`useEffect` React hook and `async`/`await` are used**
-- [x] **The app dashboard includes at least three summary statistics about the data** 
-  - The app dashboard includes at least three summary statistics about the data, such as:
-    - *Total number of breweries*
-    - *Most common brewery type*
-    - *Number of states represented*
-- [x] **A search bar allows the user to search for an item in the fetched data**
-  - The search bar **correctly** filters items in the list, only displaying items matching the search query
-  - The list of results dynamically updates as the user types into the search bar
-- [x] **An additional filter allows the user to restrict displayed items by specified categories**
-  - The filter restricts items in the list using a **different attribute** than the search bar 
-  - The filter **correctly** filters items in the list, only displaying items matching the filter attribute in the dashboard
-  - The dashboard list dynamically updates as the user adjusts the filter
+- [x] **Clicking on an item in the list view displays more details about it**
+  - Clicking on a brewery in the dashboard list navigates to a detail view for that brewery
+  - Detail view includes extra information about the brewery not included in the dashboard view
+  - The same sidebar is displayed in detail view as in dashboard view
+  - *To ensure an accurate grade, your sidebar **must** be viewable when showing the details view in your recording.*
+- [x] **Each detail view of an item has a direct, unique URL link to that item's detail view page**
+  -  *To ensure an accurate grade, the URL/address bar of your web browser **must** be viewable in your recording.*
+- [x] **The app includes at least two unique charts developed using the fetched data that tell an interesting story**
+  - A bar chart showing the distribution of breweries by type
+  - A pie chart showing the top 10 states by brewery count
+
 
 The following **optional** features are implemented:
 
-- [x] Multiple filters can be applied simultaneously
-- [x] Filters use different input types
-  - e.g., as a text input, a dropdown or radio selection, and/or a slider
-- [ ] The user can enter specific bounds for filter values
+- [x] The site's customized dashboard contains more content that explains what is interesting about the data 
+  - Added additional context and statistics to help users understand the brewery distribution
+- [x] The site allows users to toggle between different data visualizations
+  - Users can show/hide the charts section with a toggle button
+
 
 The following **additional** features are implemented:
 
-* [x] Detailed view for each brewery with additional information
-* [x] Links to brewery websites when available
-* [x] Link to view brewery location on Google Maps
-* [x] Responsive design for mobile and desktop viewing
+* [x] Enhanced the detail view with a phone number formatter for better readability
+* [x] Added a notice on the detail page about data accuracy
+* [x] Implemented responsive design for mobile and desktop viewing
+
 
 ## Video Walkthrough
-[![Brewery Explorer](https://img.youtube.com/vi/_7GaoP0brbs/0.jpg)](https://www.youtube.com/watch?v=_7GaoP0brbs)
+[![Brewery Explorer](https://img.youtube.com/vi/IfzvrMuoMfE/0.jpg)](https://www.youtube.com/watch?v=IfzvrMuoMfE)
 
 
 ## License
